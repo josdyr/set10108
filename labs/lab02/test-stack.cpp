@@ -8,7 +8,7 @@ using namespace std;
 void pusher(shared_ptr<threadsafe_stack<unsigned int>> stack)
 {
     // Pusher will push 1 million values onto the stack
-    for (unsigned int i = 0; i < 1000000; ++i)
+    for (unsigned int i = 0; i < 100000; ++i)
     {
         stack->push(i);
         // Make the pusher yield.  Will give priority to another thread
@@ -21,7 +21,7 @@ void popper(shared_ptr<threadsafe_stack<unsigned int>> stack)
     // Popper will pop 1 million values from the stack.
     // We do this using a counter and a while loop
     unsigned int count = 0;
-    while (count < 1000000)
+    while (count < 100000)
     {
         // Try and pop a value
         try
@@ -33,7 +33,7 @@ void popper(shared_ptr<threadsafe_stack<unsigned int>> stack)
         catch (exception e)
         {
             // Item not popped.  Display message
-            cout << e.what() << endl;
+            // cout << e.what() << endl;
         }
     }
 }

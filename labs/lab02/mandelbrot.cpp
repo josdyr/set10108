@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <future>
+#include <cmath>
 
 using namespace std;
 

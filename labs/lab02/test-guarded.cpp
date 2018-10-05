@@ -9,6 +9,13 @@ using namespace std;
 constexpr unsigned int NUM_ITERATIONS = 1000000;
 constexpr unsigned int NUM_THREADS = 4;
 
+void guarded::increment(){
+    std::lock_guard<std::mutex> lock(mut);
+    int x = value;
+    x++;
+    value = x;
+}
+
 void task(shared_ptr<guarded> g)
 {
     // Increment guarded object NUM_ITERATIONS times

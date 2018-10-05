@@ -5,20 +5,16 @@
 
 using namespace std;
 
-void my_multiply(std::vector<int> &my_vector, std::vector<std::vector<int>> &my_matrix)
+void my_multiply(std::vector<int> &my_vector, std::vector<std::vector<int>> &my_matrix, std::vector<int> &result_vector, int &vec_size)
 {
-    std::vector<int> result_vector(2);
-    for (int row = 0; row < 2; ++row)
-    {
-        for (int col = 0; col < 2; ++col)
-        {
-            std::cout << "v:" << my_vector[col] << " * " << "m:" << my_matrix[row][col] << "\n";
-            result_vector[col] = my_vector[col] * my_matrix[row][col];
-        }
-    }
+    int row = 0;
+    int col = 0;
 
-    //print result
-    std::cout << result_vector[0] << ", " << result_vector[1] << "\n";
+    for (int i = 0; i < vec_size; ++i)
+    {
+        result_vector[i] = (my_vector[col] * my_matrix[row][col+i]) + (my_vector[col+1] * my_matrix[row+1][col+i]);
+        // std::cout << my_vector[col] << " * " << my_matrix[row][col+i] << " + " << my_vector[col+1] << " * " << my_matrix[row+1][col+i] << "\n";
+    }
 }
 
 int main(int argc, char **argv)
@@ -28,46 +24,25 @@ int main(int argc, char **argv)
     int cols_count = 2;
 
     std::vector<int> my_vector(vec_size);
+    std::vector<int> result_vector(vec_size);
     std::vector<std::vector<int>> my_matrix(rows_count, std::vector<int>(cols_count));
 
     // random_device r;
     // default_random_engine e(r());
 
     //populate vector and matrix with random numbers
-    int val = 1;
-    for (int row = 0; row < vec_size; ++row)
-    {
-        // my_vector[row] = e();
-        std::cout << "v: " << val << "\n";
-        my_vector[row] = val++;
-        for (int col = 0; col < cols_count; ++col)
-        {
-            // my_matrix[row][col] = e();
-            std::cout << "m: " << val << "\n";
-            my_matrix[row][col] = val++;
-        }
-    }
+    my_vector[0] = 1;
+    my_vector[1] = 2;
 
-    for (int row = 0; row < vec_size; ++row)
-    {
-        for (int col = 0; col < cols_count; ++col)
-        {
-            std::cout << "my_matrix[row][col]: " << my_matrix[row][col] << "\n";
-        }
-    }
+    my_matrix[0][0] = 3;
+    my_matrix[0][1] = 4;
+    my_matrix[1][0] = 5;
+    my_matrix[1][1] = 6;
 
-    for (int i = 0; i < vec_size; ++i)
-    {
-        std::cout << "my_vector[i]: " << my_vector[i] << "\n";
-    }
-
-    my_multiply(my_vector, my_matrix);
+    my_multiply(my_vector, my_matrix, result_vector, vec_size);
 
     std::cout << "my_vector: ";
-    for (int col = 0; col < 2; ++col)
-    {
-        std::cout << my_vector[col] << ", ";
-    }
+    std::cout << result_vector[0] << ", " << result_vector[1];
 
     return 0;
 }

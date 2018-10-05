@@ -5,6 +5,7 @@
 #include <atomic>
 
 using namespace std;
+using namespace chrono;
 
 void increment(shared_ptr<atomic<int>> value)
 {
@@ -22,12 +23,17 @@ int main(int argc, char **argv)
     // Create number of threads hardware natively supports
     auto num_threads = thread::hardware_concurrency();
     vector<thread> threads;
+
+    auto start = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
     for (unsigned int i = 0; i < num_threads; ++i)
         threads.push_back(thread(increment, value));
 
     // Join the threads
     for (auto &t : threads)
         t.join();
+    auto end = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+    auto total_time = end - start;
+    std::cout << "total_time: " << total_time.count() << " ms\n";
 
     // Display the value
     cout << "Value = " << *value << endl;
